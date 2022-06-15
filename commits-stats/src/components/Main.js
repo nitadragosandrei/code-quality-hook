@@ -1,6 +1,5 @@
 import React, { useEffect } from "react"
 import { connect, useDispatch } from "react-redux"
-import { all } from "redux-saga/effects";
 import { loadAllCommitsRequest } from '../redux/actions';
 
 const MainPage = (props) => {
@@ -27,7 +26,9 @@ const renderLoadingComponent = () => {
 
 const commitsAsTable = (allCommits) => {
     console.log("allCommits", allCommits);
-        return (
+    allCommits.length > 0 && extractRatingForFiles(allCommits);
+
+    return (
         <div className="container">
             <h3 className="p-3 text-center">React - Display a list of commits</h3>
             <table className="table table-striped table-bordered">
@@ -58,6 +59,37 @@ const commitsAsTable = (allCommits) => {
 
 const extractFilenames = (files) => {
     return files.map(file => file.filename + " ");
+}
+
+const extractRatingForCommit = (commit) => {
+    const commitMessage = commit.commit.message;
+    const indexOfFirstDelim = commitMessage.indexOf("|");
+    return commitMessage.substring(indexOfFirstDelim + 2, indexOfFirstDelim + 3);
+}
+
+const extractRatingForFiles = (allCommits) => {
+    let mapOfFileAndAverageRatings = new Map();
+
+    allCommits.forEach( commit => {
+        const rating = extractRatingForCommit(commit);
+
+        if(!isNaN(rating) && rating !== ' ') {
+            commit.files.forEach( file => {
+                if(mapOfFileAndAverageRatings.has(file.filename)) {
+                    let currentRatingArray = mapOfFileAndAverageRatings.get(file.filename);
+                    currentRatingArray.push(rating);
+                    mapOfFileAndAverageRatings.set(file.filename, currentRatingArray);
+                } else {
+                    let tempArray = [];
+                    tempArray.push(rating);
+                    mapOfFileAndAverageRatings.set(file.filename, tempArray);
+                }
+            })
+        }
+    })
+
+    console.log(mapOfFileAndAverageRatings);
+    return mapOfFileAndAverageRatings;
 }
 
 const mapStateToProps = state => {
