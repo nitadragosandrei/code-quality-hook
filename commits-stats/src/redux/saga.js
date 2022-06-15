@@ -1,4 +1,4 @@
-import {getAllCommits, getCommitByShaId} from '../services/git';
+import {getAllCommits, getCommitByShaId, getAllBranches,getCommitByBranchName} from '../services/git';
 import { put, takeLatest, all, call } from 'redux-saga/effects';
 import {
     LOAD_ALL_COMMITS_REQUEST,
@@ -6,13 +6,33 @@ import {
 } from "./types";
 
 function* fetchAllCommits() {
-    const allCommits = yield getAllCommits();
-    const shaIds = allCommits.map(commit => commit.sha)
+    const allBranches  = yield getAllBranches();
+    // const allCommits = yield getAllBranches();
+    // console.log(allBranches);
+    const branchShas = allBranches.map(branch => branch.commit.sha)
+    
+    // console.log(branchShas);
+    // const branch = branchShas.map(commit => commit)
+    // console.log(branch);
+    const allBranchesByShaId = yield loadCommitsByShaIds(branchShas);
+    console.log("allBranchesByShaId",allBranchesByShaId);
 
-    const allCommitsByShaId = yield loadCommitsByShaIds(shaIds);
+    var allCommitsShaIds = [];
+    allBranchesByShaId.forEach((item)=>{
+        item.forEach((commit)=>{
+            allCommitsShaIds.push(commit.sha);
+        })
+    });
+    
+    console.log("commitsShaId",allCommitsShaIds);
+    
+    const allCommitsByShaId = yield loadCommitsByShaIds(allCommitsShaIds);
+    
+    console.log("allCommitsByShaId", allCommitsByShaId);
 
     yield put({ type: LOAD_ALL_COMMITS_SUCCESSFULLY, payload: allCommitsByShaId });
 }
+
 function* loadAllCommitsWatcher() {
     yield takeLatest(LOAD_ALL_COMMITS_REQUEST, fetchAllCommits)
 }

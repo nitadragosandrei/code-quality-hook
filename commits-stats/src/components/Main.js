@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import { connect, useDispatch } from "react-redux"
+import { all } from "redux-saga/effects";
 import { loadAllCommitsRequest } from '../redux/actions';
 
 const MainPage = (props) => {
@@ -26,7 +27,7 @@ const renderLoadingComponent = () => {
 
 const commitsAsTable = (allCommits) => {
     console.log("allCommits", allCommits);
-    return (
+        return (
         <div className="container">
             <h3 className="p-3 text-center">React - Display a list of commits</h3>
             <table className="table table-striped table-bordered">
@@ -39,18 +40,21 @@ const commitsAsTable = (allCommits) => {
                 </tr>
                 </thead>
                 <tbody>
-                {allCommits && allCommits.length > 0 && allCommits.map(item =>
+                {allCommits[0] && allCommits[0].length > 0 && allCommits[0].map(item =>
                     <tr key={item.sha}>
                         <td>{item.sha}</td>
                         <td>{item.commit.author.name}</td>
                         <td>{item.commit.message}</td>
                         <td>{extractFilenames(item.files)}</td>
+                        <td>{}</td>
                     </tr>
                 )}
                 </tbody>
             </table>
         </div>
     );
+
+    
 }
 
 const extractFilenames = (files) => {
