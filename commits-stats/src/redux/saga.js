@@ -14,13 +14,15 @@ function* fetchAllCommits() {
     // console.log(branchShas);
     // const branch = branchShas.map(commit => commit)
     // console.log(branch);
-    const allBranchesByShaId = yield loadCommitsByShaIds(branchShas);
+    const allBranchesByShaId = yield loadCommitsByShaIds(branchShas, true);
     console.log("allBranchesByShaId",allBranchesByShaId);
 
     var allCommitsShaIds = [];
     allBranchesByShaId.forEach((item)=>{
         item.forEach((commit)=>{
-            allCommitsShaIds.push(commit.sha);
+            if(!allCommitsShaIds.includes(commit.sha)) {
+                allCommitsShaIds.push(commit.sha);
+            }
         })
     });
     
@@ -37,9 +39,9 @@ function* loadAllCommitsWatcher() {
     yield takeLatest(LOAD_ALL_COMMITS_REQUEST, fetchAllCommits)
 }
 
-function* loadCommitsByShaIds(shaIds) {
+function* loadCommitsByShaIds(shaIds, page) {
     return yield shaIds.map(shaId => {
-        return call(getCommitByShaId, shaId)
+        return call(getCommitByShaId, shaId, page)
     })
 }
 

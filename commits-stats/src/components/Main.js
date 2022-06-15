@@ -40,13 +40,12 @@ const commitsAsTable = (allCommits) => {
                 </tr>
                 </thead>
                 <tbody>
-                {allCommits[0] && allCommits[0].length > 0 && allCommits[0].map(item =>
+                {allCommits && allCommits.length > 0 && allCommits.map(item =>
                     <tr key={item.sha}>
                         <td>{item.sha}</td>
                         <td>{item.commit.author.name}</td>
                         <td>{item.commit.message}</td>
                         <td>{extractFilenames(item.files)}</td>
-                        <td>{}</td>
                     </tr>
                 )}
                 </tbody>
