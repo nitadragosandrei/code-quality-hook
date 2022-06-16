@@ -11,10 +11,16 @@ const MainPage = (props) => {
     const [isGraphPageVisible, setGraphPageVisible] = useState(true);
     const [isCommitsPageVisible, setCommitsPageVisible] = useState(false);
     const [isFilesPageVisible, setFilesPageVisible] = useState(false);
+    const [entry, setEntry] = useState(null);
 
     useEffect(() => {
         dispatch(loadAllCommitsRequest());
     }, [dispatch]);
+
+    const onRowClick = (key, value) => {
+        console.log("key", key);
+        console.log("value", value);
+    }
 
     const onGraphClick = () => {
         setGraphPageVisible(true);
@@ -44,12 +50,17 @@ const MainPage = (props) => {
         }
 
         if(isFilesPageVisible) {
-            return Files(props.allCommits)
+            if(entry !== null) {
+                return <div>
+                    Vivian
+                </div>
+            } else {
+                return Files(props.allCommits, onRowClick)
+            }
         }
 
         return null;
     }
-
 
     const renderMainPage = () => {
         return (

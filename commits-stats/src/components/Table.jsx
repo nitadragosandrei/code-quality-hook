@@ -1,7 +1,6 @@
 import React from "react"
 
 const Table = (allCommits) => {
-
     return allCommits && allCommits.length > 0 ? (
         <div className="container">
             <h3 className="p-3 text-center">React - Display a list of commits</h3>
