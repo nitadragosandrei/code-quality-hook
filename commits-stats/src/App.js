@@ -2,8 +2,7 @@ import React from 'react';
 import MainPage from './components/Main';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Error from './components/Error';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Table from './components/Table';
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 
 let App = () => (
@@ -11,7 +10,6 @@ let App = () => (
       <div>
         <Switch>
           <Route path="/home" component={MainPage} exact/>
-          <Route path="/commits" component={Table} exact/>
           {/*<Route path="/graph" component={MainPage} exact/>*/}
           {/*<Route path="/files" component={MainPage} exact/>*/}
           <Route component={Error}/>

@@ -1,11 +1,6 @@
 import React from "react"
-import {connect, shallowEqual, useSelector} from 'react-redux'
 
-const commitsAsTable = (allCommits) => {
-    console.log("allCommits", allCommits);
-
-    // console.log("allCommits", allCommits);
-    // allCommits.length > 0 && extractRatingForFiles(allCommits);
+const Table = (allCommits) => {
 
     return allCommits && allCommits.length > 0 ? (
         <div className="container">
@@ -69,4 +64,5 @@ const extractRatingForCommit = (commit) => {
     return commitMessage.substring(indexOfFirstDelim + 2, indexOfFirstDelim + 3);
 }
 
-export default commitsAsTable;
+export default Table;
+
