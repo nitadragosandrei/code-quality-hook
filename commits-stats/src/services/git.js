@@ -2,7 +2,7 @@ export const getAllCommits = () => {
     return fetch('https://api.github.com/repos/nitadragosandrei/code-quality-hook/commits', {
         method: 'get',
         headers: new Headers({
-            'Authorization': 'token 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',
+            'Authorization': 'token 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',
             'Accept': 'application/vnd.github.v3+json'
         })
     })
@@ -18,7 +18,7 @@ export const getCommitByShaId = (shaId, page = false) => {
     return fetch(url, {
         method: 'get',
         headers: new Headers({
-            'Authorization': 'token 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',
+            'Authorization': 'token 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',
             'Accept': 'application/vnd.github.v3+json'
         })
     })
@@ -31,7 +31,7 @@ export const getAllBranches = () => {
     return fetch('https://api.github.com/repos/nitadragosandrei/code-quality-hook/branches', {
         method: 'get',
         headers: new Headers({
-            'Authorization': 'token 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',
+            'Authorization': 'token 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',
             'Accept': 'application/vnd.github.v3+json'
         })
     })
